@@ -61,7 +61,7 @@ body::after {
 
 /* Epic site header (Dota 2 6.84 style), inline and centered */
 body::before {
-  content: 'Контрпики DOTA 2 от Lexa';
+  content: 'Контрпики DOTA 2 патч 6.84 от Lexa';
   display: block;
   max-width: 1320px;
   margin: 18px auto 10px; /* top spacing */
@@ -80,6 +80,23 @@ body::before {
   border: 1px solid var(--border);
   box-shadow: 0 14px 34px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
   border-radius: 8px;
+}
+
+/* Footer note pinned near the bottom of the page */
+html::after {
+  content: 'С предложениями писать в ТГ: @Alexeynekrasov20';
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  color: #d6d7d9;
+  font: 500 14px/1.3 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+  z-index: 9999;
 }
 
 /* Constrain and center direct children for readable line length */
