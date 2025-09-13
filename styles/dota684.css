@@ -82,21 +82,20 @@ body::before {
   border-radius: 8px;
 }
 
-/* Footer note pinned near the bottom of the page */
+/* Footer note as a regular bottom-of-page block (not fixed) */
 html::after {
   content: 'С предложениями писать в ТГ: @Alexeynekrasov20';
-  position: fixed;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
+  display: block;
+  max-width: 1320px;
+  margin: 32px auto 24px;
   padding: 8px 12px;
+  text-align: center;
   color: #d6d7d9;
   font: 500 14px/1.3 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
   border: 1px solid var(--border);
   border-radius: 6px;
   box-shadow: 0 8px 20px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
-  z-index: 9999;
 }
 
 /* Constrain and center direct children for readable line length */
