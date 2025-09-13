@@ -1,0 +1,403 @@
+/* Minimal Dota 2 6.84-inspired theme */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@400;700&display=swap');
+
+:root {
+  --bg: #0e1012;
+  --bg-2: #13181d;
+  --panel: #151a1e;
+  --panel-2: #111519;
+  --border: #2a2f36;
+  --accent: #b73a3a; /* Dota red */
+  --accent-2: #c9a86a; /* gold */
+  --text: #d6d7d9;
+  --muted: #a2a6ab;
+  --site-header-h: 72px; /* legacy; not fixed now */
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body.doc-content,
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #1b2228 0%, var(--bg) 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* header is now inline, no extra top padding */
+}
+
+/* Override Google Docs export body constraints */
+body.c58,
+body.doc-content {
+  max-width: none !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+/* Subtle center panel to frame content without editing HTML */
+body.doc-content::after,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: min(1320px, calc(100% - 32px));
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(21,26,30,.92), rgba(17,21,25,.92));
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+/* Epic site header (Dota 2 6.84 style), inline and centered */
+body::before {
+  content: 'Контрпики DOTA 2 от Lexa';
+  display: block;
+  max-width: 1320px;
+  margin: 18px auto 10px; /* top spacing */
+  padding: 16px 20px;
+  text-align: center;
+  color: #f2f3f5;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(26px, 4vw, 40px);
+  letter-spacing: .8px;
+  line-height: 1.15;
+  text-shadow: 0 6px 22px rgba(0,0,0,.65), 0 0 8px rgba(183,58,58,.28);
+  background:
+    radial-gradient(600px 140px at 50% 0%, rgba(183,58,58,.18), rgba(0,0,0,0)),
+    linear-gradient(180deg, rgba(21,26,30,.95), rgba(17,21,25,.95));
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 34px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+  border-radius: 8px;
+}
+
+/* Constrain and center direct children for readable line length */
+body.doc-content > *,
+body > * {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Headings: serif, subtle glow, accent underline */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  color: var(--text);
+  letter-spacing: .5px;
+  line-height: 1.25;
+  margin: 24px auto 12px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+
+h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(199, 43, 43, 0.5);
+}
+
+h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(199, 43, 43, 0.4);
+}
+
+h3 { font-size: 20px; font-weight: 700; color: #e6e7e9; }
+h4 { font-size: 18px; font-weight: 700; color: #e0e1e4; }
+h5, h6 { font-size: 16px; font-weight: 700; color: #d0d3d8; }
+
+p { margin: 12px auto; color: var(--text); }
+
+/* Links: Dota red with subtle underline */
+a { color: #e65b5b; text-decoration: none; border-bottom: 1px solid rgba(230,91,91,.35); }
+a:hover { color: #ff7a7a; border-color: rgba(255,122,122,.7); }
+
+/* Lists */
+ul, ol { margin: 10px auto 14px; padding-left: 22px; }
+li { margin: 6px 0; }
+
+/* Tables: dark panel with zebra rows */
+/* Center tables and keep them readable */
+table {
+  width: 980px; /* enforce equal width for all tables */
+  max-width: 980px; /* safety cap */
+  table-layout: fixed; /* consistent column behavior */
+  border-collapse: separate; /* required for sticky headers to behave reliably */
+  border-spacing: 0;
+  margin-left: auto; /* horizontal centering */
+  margin-right: auto;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+  border-radius: 6px;
+  overflow: visible; /* allow sticky header to escape cell clipping */
+}
+
+/* Override any Google Docs export margins/floats */
+body table {
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: table;
+}
+
+/* Last-resort centering for exported Docs table with class c32 */
+body table.c32 {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Make the main counterpick table span the full panel width */
+table.c32 {
+  width: 980px !important;           /* same as others */
+  max-width: 980px;                  /* visually tighter table */
+  table-layout: fixed;               /* respect column widths */
+}
+
+/* Ensure the last table ("Универсалы") matches the same width/layout */
+body table:last-of-type {
+  width: 980px !important;
+  max-width: 980px !important;
+  table-layout: fixed !important;
+}
+body table:last-of-type th:nth-child(1),
+body table:last-of-type td:nth-child(1) { width: 26% !important; }
+body table:last-of-type th:nth-child(2),
+body table:last-of-type td:nth-child(2) { width: 37% !important; }
+body table:last-of-type th:nth-child(3),
+body table:last-of-type td:nth-child(3) { width: 37% !important; }
+
+/* Wider columns: keep 1st for hero, give more room to 2/3 */
+/* Balanced proportions for readability */
+table.c32 th:nth-child(1),
+table.c32 td:nth-child(1) { width: 26%; }
+table.c32 th:nth-child(2),
+table.c32 td:nth-child(2) { width: 37%; }
+table.c32 th:nth-child(3),
+table.c32 td:nth-child(3) { width: 37%; }
+
+/* Make text in columns 2 and 3 larger for readability (all tables) */
+body table td:nth-child(2),
+body table td:nth-child(3) {
+  font-size: 18px !important; /* +2px from base 16px */
+}
+/* Ensure nested spans/links inherit new size even if exported with inline sizes */
+body table td:nth-child(2) *,
+body table td:nth-child(3) * { font-size: inherit !important; }
+
+/* Header row style (works even if export has no <thead>/<th>) */
+table tr:first-child td {
+  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0));
+  color: #f0f1f2;
+  font-family: 'Cinzel', serif;
+  letter-spacing: .3px;
+  position: sticky;
+  top: 0; /* no fixed site header now */
+  z-index: 5;
+  background-color: var(--panel);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+/* Make rows denser specifically in the main table */
+table.c32 th,
+table.c32 td {
+  padding: 2px 6px !important;   /* minimal vertical padding */
+  line-height: 1.08 !important;  /* even denser lines */
+  height: auto !important;
+}
+table.c32 thead th { padding-top: 6px; padding-bottom: 6px; }
+table.c32 ul, table.c32 ol { margin: 0 !important; padding-left: 16px; }
+table.c32 p { margin: 0 !important; line-height: 1.12 !important; }
+table.c32 li { line-height: 1.12 !important; }
+table.c32 tr { height: auto !important; }
+table.c32 a, table.c32 span, table.c32 strong, table.c32 em { line-height: inherit !important; }
+/* If Docs exported inline styles set line-height, override them */
+table.c32 [style*="line-height"] { line-height: 1.12 !important; }
+table.c32 [style*="margin-top"],
+table.c32 [style*="margin-bottom"],
+table.c32 [style*="padding-top"],
+table.c32 [style*="padding-bottom"] { margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+
+tbody tr:nth-child(odd) { background-color: rgba(255,255,255,.02); }
+tbody tr:hover { background-color: rgba(183,58,58,.08); }
+
+/* Images: subtle frame */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0,0,0,.45);
+}
+
+/* Hero image in the first column (large thumbnail) */
+table.c32 td:nth-child(1) img {
+  width: 84px !important;
+  height: 47px !important; /* keep 16:9 ratio */
+  object-fit: cover;
+}
+
+/* Compact inline icons + text in "Контрпики" (col 2) and "Предметы для контры" (col 3) */
+/* Shrink the exported Google Docs inline image wrappers */
+table.c32 td:nth-child(2) li span[style*='display: inline-block'][style*='width'][style*='height'],
+table.c32 td:nth-child(3) li span[style*='display: inline-block'][style*='width'][style*='height'] {
+  width: 19px !important;  /* +20% from 16px */
+  height: 19px !important;
+  margin: 0 6px 0 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  vertical-align: middle !important;
+}
+
+/* Actual icon visuals */
+table.c32 td:nth-child(2) li img,
+table.c32 td:nth-child(3) li img {
+  width: 19px !important;  /* +20% from 16px */
+  height: 19px !important;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 0 !important;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+
+/* Tighter list spacing for compact look */
+table.c32 td:nth-child(2) li,
+table.c32 td:nth-child(3) li {
+  margin: 0 !important;
+  line-height: 1.06 !important;
+}
+
+/* Align cells nicely */
+table td, table th { vertical-align: middle; }
+/* In the main table, stick content to the top to avoid large empty bottoms */
+table.c32 td, table.c32 th { vertical-align: top !important; }
+table.c32 td:nth-child(1) { padding-top: 2px; padding-bottom: 2px; }
+
+/* Remove big heading margins inside table (hero names) */
+table.c32 h1, table.c32 h2, table.c32 h3,
+table.c32 h4, table.c32 h5, table.c32 h6 {
+  margin: 0 !important;
+  line-height: 1.08 !important;
+}
+/* Slightly smaller hero name size to reduce row height */
+table.c32 h3, table.c32 h4, table.c32 h5, table.c32 h6 { font-size: 16px !important; }
+
+/* Collapse margins of direct children inside cells */
+table.c32 td > * { margin-top: 0 !important; margin-bottom: 0 !important; }
+
+/* On smaller screens, reduce icon size to fit */
+@media (max-width: 640px) {
+  table { max-width: calc(100% - 16px); width: 100%; }
+  /* On mobile, keep main table full width for readability */
+  table.c32 { width: 100% !important; }
+  /* Smaller hero thumbnail on small screens */
+  table.c32 td:nth-child(1) img { width: 96px !important; height: 54px !important; }
+  /* Slightly smaller inline icons for narrow viewports */
+  table.c32 td:nth-child(2) li img,
+  table.c32 td:nth-child(3) li img,
+  table.c32 td:nth-child(2) li span[style*='display: inline-block'][style*='width'][style*='height'],
+  table.c32 td:nth-child(3) li span[style*='display: inline-block'][style*='width'][style*='height'] {
+    width: 24px !important;  /* +20% from 20px */
+    height: 24px !important;
+  }
+  body table.c32 { left: auto; transform: none; }
+}
+
+/* Horizontal rule as gilded divider */
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+  margin: 24px auto;
+}
+
+/* Callouts or emphasized paragraphs that Google Docs may output */
+blockquote, .note, .warning {
+  margin: 16px auto;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(201,168,106,.08), rgba(0,0,0,0));
+  border-left: 3px solid var(--accent-2);
+  border-radius: 4px;
+}
+
+/* Small caps helper for headings copied from docs */
+.smallcaps { font-variant: small-caps; letter-spacing: .5px; }
+
+/* Make long words/URLs wrap nicely */
+p, li, td, th { word-wrap: break-word; overflow-wrap: anywhere; }
+
+/* Subtle glowing focus for accessibility */
+a:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Reduce insane inline image wrapper spacing from Docs exports */
+span[style*='display: inline-block'][style*='width'][style*='height'] {
+  vertical-align: middle;
+}
+
+/* Space sections apart since we can’t add wrappers */
+body.doc-content > h1,
+body.doc-content > h2,
+body > h1,
+body > h2 { margin-top: 28px; }
+
+/* Hero index base spacing if script injects it */
+.hero-index { isolation: isolate; }
+
+/* Make the first heading pop a bit */
+body.doc-content h1:first-of-type,
+body h1:first-of-type {
+  margin-top: 36px;
+  text-shadow: 0 4px 20px rgba(0,0,0,.5), 0 0 0 rgba(183,58,58,0.0);
+}
+
+/* Footer-like small text */
+small, .muted { color: var(--muted); }
+
+/* Final hard overrides to reduce vertical spacing in the main table */
+table.c32 td, table.c32 th,
+table.c32 p, table.c32 li,
+table.c32 a, table.c32 span,
+table.c32 div, table.c32 strong,
+table.c32 em, table.c32 small {
+  line-height: 1.08 !important;
+}
+table.c32 p, table.c32 li { margin: 0 !important; padding: 0 !important; }
+/* Google Docs list exports */
+table.c32 ol[class^="lst-kix_"],
+table.c32 ul[class^="lst-kix_"] { margin: 0 !important; }
+table.c32 ol[class^="lst-kix_"] > li,
+table.c32 ul[class^="lst-kix_"] > li { line-height: 1.08 !important; margin: 0 !important; }
+
+/* Make ordered-list numbers white (covers native markers and Docs counters) */
+table.c32 ol > li::marker { color: #fff !important; }
+table.c32 ol > li:before { color: #fff !important; }
+
+/* Make bullet points in items column (3rd col) white */
+table.c32 td:nth-child(3) ul > li::marker { color: #fff !important; }
+table.c32 td:nth-child(3) ul > li:before { color: #fff !important; }
