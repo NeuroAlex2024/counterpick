@@ -139,6 +139,16 @@ p { margin: 12px auto; color: var(--text); }
 a { color: #e65b5b; text-decoration: none; border-bottom: 1px solid rgba(230,91,91,.35); }
 a:hover { color: #ff7a7a; border-color: rgba(255,122,122,.7); }
 
+/* Disable links in the first three columns (remove dota2.ru hyperlinks) */
+body table td:nth-child(-n+3) a {
+  pointer-events: none;
+  color: inherit;
+  text-decoration: none;
+  border: none;
+  cursor: default;
+}
+body table td:nth-child(-n+3) a:hover { color: inherit; }
+
 /* Lists */
 ul, ol { margin: 10px auto 14px; padding-left: 22px; }
 li { margin: 6px 0; }
