@@ -82,11 +82,8 @@ body::before {
   border-radius: 8px;
 }
 
-/* Footer note as a regular bottom-of-page block (not fixed) */
-html::after {
-  content: 'С предложениями писать в ТГ: @Alexeynekrasov20';
-  display: block;
-  max-width: 1320px;
+/* Footer block styling */
+.site-footer {
   margin: 32px auto 24px;
   padding: 8px 12px;
   text-align: center;
