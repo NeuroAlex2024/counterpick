@@ -11,7 +11,6 @@
   --accent-2: #c9a86a; /* gold */
   --text: #d6d7d9;
   --muted: #a2a6ab;
-  --site-header-h: 72px; /* legacy; not fixed now */
 }
 
 * { box-sizing: border-box; }
@@ -30,7 +29,6 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* header is now inline, no extra top padding */
 }
 
 /* Override Google Docs export body constraints */
@@ -64,7 +62,7 @@ body::before {
   content: 'Контрпики DOTA 2 патч 6.84 от Lexa';
   display: block;
   max-width: 1320px;
-  margin: 18px auto 10px; /* top spacing */
+  margin: 18px auto 10px;
   padding: 16px 20px;
   text-align: center;
   color: #f2f3f5;
@@ -154,22 +152,21 @@ ul, ol { margin: 10px auto 14px; padding-left: 22px; }
 li { margin: 6px 0; }
 
 /* Tables: dark panel with zebra rows */
-/* Center tables and keep them readable */
 table {
-  width: 980px; /* enforce equal width for all tables */
-  max-width: 980px; /* safety cap */
-  table-layout: fixed; /* consistent column behavior */
-  border-collapse: separate; /* required for sticky headers to behave reliably */
+  width: 980px;
+  max-width: 980px;
+  table-layout: fixed;
+  border-collapse: separate;
   border-spacing: 0;
-  margin-left: auto; /* horizontal centering */
+  margin-left: auto;
   margin-right: auto;
   margin-top: 24px;
   margin-bottom: 24px;
   background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
-  border: 1px solid var(--border);
+  border: 2px solid rgba(201,168,106,.3);
   box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
   border-radius: 6px;
-  overflow: visible; /* allow sticky header to escape cell clipping */
+  overflow: visible;
 }
 
 /* Override any Google Docs export margins/floats */
@@ -191,12 +188,12 @@ body table.c32 {
 
 /* Make the main counterpick table span the full panel width */
 table.c32 {
-  width: 980px !important;           /* same as others */
-  max-width: 980px;                  /* visually tighter table */
-  table-layout: fixed;               /* respect column widths */
+  width: 980px !important;
+  max-width: 980px;
+  table-layout: fixed;
 }
 
-/* Ensure the last table ("Универсалы") matches the same width/layout */
+/* Ensure the last table matches the same width/layout */
 body table:last-of-type {
   width: 980px !important;
   max-width: 980px !important;
@@ -210,7 +207,6 @@ body table:last-of-type th:nth-child(3),
 body table:last-of-type td:nth-child(3) { width: 37% !important; }
 
 /* Wider columns: keep 1st for hero, give more room to 2/3 */
-/* Balanced proportions for readability */
 table.c32 th:nth-child(1),
 table.c32 td:nth-child(1) { width: 26%; }
 table.c32 th:nth-child(2),
@@ -218,39 +214,169 @@ table.c32 td:nth-child(2) { width: 37%; }
 table.c32 th:nth-child(3),
 table.c32 td:nth-child(3) { width: 37%; }
 
-/* Make text in columns 2 and 3 larger for readability (all tables) */
+/* Make text in columns 2 and 3 larger for readability */
 body table td:nth-child(2),
 body table td:nth-child(3) {
-  font-size: 18px !important; /* +2px from base 16px */
+  font-size: 18px !important;
 }
-/* Ensure nested spans/links inherit new size even if exported with inline sizes */
 body table td:nth-child(2) *,
 body table td:nth-child(3) * { font-size: inherit !important; }
 
-/* Header row style (works even if export has no <thead>/<th>) */
-table tr:first-child td {
-  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0));
-  color: #f0f1f2;
-  font-family: 'Cinzel', serif;
-  letter-spacing: .3px;
-  position: sticky;
-  top: 0; /* no fixed site header now */
-  z-index: 5;
-  background-color: var(--panel);
-  box-shadow: 0 1px 0 var(--border);
+/* Header row style - улучшенный дизайн */
+table tr:first-child td,
+table tr:first-child th,
+body table tr:first-child td,
+body table tr:first-child th {
+  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0)) !important;
+  color: #f0f1f2 !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.5px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  padding: 16px 12px !important;
+  background-color: var(--panel) !important;
+  box-shadow: 0 1px 0 var(--border) !important;
+  border: 1px solid rgba(201,168,106,.3) !important;
+  height: 48px !important;
+  line-height: 1.3 !important;
+  min-height: 48px !important;
+  vertical-align: middle !important;
+}
+
+/* Специальные стили для каждой колонки заголовка */
+table tr:first-child td:nth-child(1),
+table tr:first-child td:nth-child(2),
+table tr:first-child td:nth-child(3) {
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  font-family: 'Cinzel', serif !important;
+  color: #f0f1f2 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Переопределение inline стилей Google Docs для заголовков */
+table tr:first-child td *,
+body table tr:first-child td *,
+table tr:first-child th *,
+body table tr:first-child th * {
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  letter-spacing: 0.5px !important;
+  text-align: center !important;
+}
+
+table tr:first-child td h1,
+table tr:first-child td h2,
+table tr:first-child td h3,
+table tr:first-child td h4,
+table tr:first-child td h5,
+table tr:first-child td h6,
+table tr:first-child td p,
+table tr:first-child td span,
+table tr:first-child td div,
+body table tr:first-child td h1,
+body table tr:first-child td h2,
+body table tr:first-child td h3,
+body table tr:first-child td h4,
+body table tr:first-child td h5,
+body table tr:first-child td h6,
+body table tr:first-child td p,
+body table tr:first-child td span,
+body table tr:first-child td div {
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  letter-spacing: 0.5px !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Дополнительное переопределение для всех возможных элементов */
+table tr:first-child td[style],
+body table tr:first-child td[style] {
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  letter-spacing: 0.5px !important;
+  text-align: center !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  padding: 16px 12px !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
 }
 
 th, td {
   padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
+  border: 1px solid rgba(201,168,106,.2);
   vertical-align: top;
+  position: relative;
+}
+
+/* Рамки для ячеек таблицы */
+table td {
+  border-left: 1px solid rgba(201,168,106,.15);
+  border-right: 1px solid rgba(201,168,106,.15);
+  border-top: 1px solid rgba(201,168,106,.1);
+  border-bottom: 1px solid rgba(201,168,106,.2);
+}
+
+/* Специальные рамки для заголовков - закрепленные */
+table tr:first-child td {
+  border: none !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+}
+
+
+/* Дополнительная рамка для закрепленной строки */
+table tr:first-child,
+body table tr:first-child {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3) !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* Максимально агрессивное переопределение для закрепления */
+table tr:first-child td[class*="c"],
+body table tr:first-child td[class*="c"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  text-align: center !important;
+  padding: 16px 12px !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 /* Make rows denser specifically in the main table */
 table.c32 th,
 table.c32 td {
-  padding: 2px 6px !important;   /* minimal vertical padding */
-  line-height: 1.08 !important;  /* even denser lines */
+  padding: 2px 6px !important;
+  line-height: 1.08 !important;
   height: auto !important;
 }
 table.c32 thead th { padding-top: 6px; padding-bottom: 6px; }
@@ -259,7 +385,6 @@ table.c32 p { margin: 0 !important; line-height: 1.12 !important; }
 table.c32 li { line-height: 1.12 !important; }
 table.c32 tr { height: auto !important; }
 table.c32 a, table.c32 span, table.c32 strong, table.c32 em { line-height: inherit !important; }
-/* If Docs exported inline styles set line-height, override them */
 table.c32 [style*="line-height"] { line-height: 1.12 !important; }
 table.c32 [style*="margin-top"],
 table.c32 [style*="margin-bottom"],
@@ -268,6 +393,14 @@ table.c32 [style*="padding-bottom"] { margin-top: 0 !important; margin-bottom: 0
 
 tbody tr:nth-child(odd) { background-color: rgba(255,255,255,.02); }
 tbody tr:hover { background-color: rgba(183,58,58,.08); }
+
+/* Убираем эффект при наведении на ячейки заголовков */
+table tr:first-child td:hover,
+table tr:first-child th:hover {
+  background-color: inherit !important;
+  border-color: inherit !important;
+  transition: none !important;
+}
 
 /* Images: subtle frame */
 img {
@@ -278,18 +411,17 @@ img {
   box-shadow: 0 6px 18px rgba(0,0,0,.45);
 }
 
-/* Hero image in the first column (large thumbnail) */
+/* Hero image in the first column */
 table.c32 td:nth-child(1) img {
   width: 84px !important;
-  height: 47px !important; /* keep 16:9 ratio */
+  height: 47px !important;
   object-fit: cover;
 }
 
-/* Compact inline icons + text in "Контрпики" (col 2) and "Предметы для контры" (col 3) */
-/* Shrink the exported Google Docs inline image wrappers */
+/* Compact inline icons + text in columns 2 and 3 */
 table.c32 td:nth-child(2) li span[style*='display: inline-block'][style*='width'][style*='height'],
 table.c32 td:nth-child(3) li span[style*='display: inline-block'][style*='width'][style*='height'] {
-  width: 19px !important;  /* +20% from 16px */
+  width: 19px !important;
   height: 19px !important;
   margin: 0 6px 0 0 !important;
   border: 0 !important;
@@ -297,10 +429,9 @@ table.c32 td:nth-child(3) li span[style*='display: inline-block'][style*='width'
   vertical-align: middle !important;
 }
 
-/* Actual icon visuals */
 table.c32 td:nth-child(2) li img,
 table.c32 td:nth-child(3) li img {
-  width: 19px !important;  /* +20% from 16px */
+  width: 19px !important;
   height: 19px !important;
   object-fit: cover;
   border-radius: 3px;
@@ -309,7 +440,6 @@ table.c32 td:nth-child(3) li img {
   vertical-align: middle;
 }
 
-/* Tighter list spacing for compact look */
 table.c32 td:nth-child(2) li,
 table.c32 td:nth-child(3) li {
   margin: 0 !important;
@@ -318,59 +448,58 @@ table.c32 td:nth-child(3) li {
 
 /* Align cells nicely */
 table td, table th { vertical-align: middle; }
-/* In the main table, stick content to the top to avoid large empty bottoms */
 table.c32 td, table.c32 th { vertical-align: top !important; }
 table.c32 td:nth-child(1) { padding-top: 2px; padding-bottom: 2px; }
 
-/* Remove big heading margins inside table (hero names) */
+/* Remove big heading margins inside table */
 table.c32 h1, table.c32 h2, table.c32 h3,
 table.c32 h4, table.c32 h5, table.c32 h6 {
   margin: 0 !important;
   line-height: 1.08 !important;
 }
-/* Slightly smaller hero name size to reduce row height */
 table.c32 h3, table.c32 h4, table.c32 h5, table.c32 h6 { font-size: 16px !important; }
 
 /* Collapse margins of direct children inside cells */
 table.c32 td > * { margin-top: 0 !important; margin-bottom: 0 !important; }
 
-/* On smaller screens, reduce icon size to fit */
+/* Mobile responsiveness */
 @media (max-width: 640px) {
   table { max-width: calc(100% - 16px); width: 100%; }
-  /* On mobile, keep main table full width for readability */
   table.c32 { width: 100% !important; }
-  /* Smaller hero thumbnail on small screens */
   table.c32 td:nth-child(1) img { width: 96px !important; height: 54px !important; }
-  /* Slightly smaller inline icons for narrow viewports */
   table.c32 td:nth-child(2) li img,
   table.c32 td:nth-child(3) li img,
   table.c32 td:nth-child(2) li span[style*='display: inline-block'][style*='width'][style*='height'],
   table.c32 td:nth-child(3) li span[style*='display: inline-block'][style*='width'][style*='height'] {
-    width: 24px !important;  /* +20% from 20px */
+    width: 24px !important;
     height: 24px !important;
   }
   body table.c32 { left: auto; transform: none; }
+  
+  /* Мобильные стили для заголовков */
+  table tr:first-child td {
+    padding: 12px 8px !important;
+    font-size: 14px !important;
+    letter-spacing: 0.3px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    line-height: 1.3 !important;
+  }
+  
+  table tr:first-child td:nth-child(1),
+  table tr:first-child td:nth-child(2),
+  table tr:first-child td:nth-child(3) {
+    font-size: 14px !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 600 !important;
+  }
+  
+  table tr:first-child td * {
+    font-size: 14px !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 600 !important;
+  }
 }
-
-/* Horizontal rule as gilded divider */
-hr {
-  border: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
-  margin: 24px auto;
-}
-
-/* Callouts or emphasized paragraphs that Google Docs may output */
-blockquote, .note, .warning {
-  margin: 16px auto;
-  padding: 12px 14px;
-  background: linear-gradient(180deg, rgba(201,168,106,.08), rgba(0,0,0,0));
-  border-left: 3px solid var(--accent-2);
-  border-radius: 4px;
-}
-
-/* Small caps helper for headings copied from docs */
-.smallcaps { font-variant: small-caps; letter-spacing: .5px; }
 
 /* Make long words/URLs wrap nicely */
 p, li, td, th { word-wrap: break-word; overflow-wrap: anywhere; }
@@ -383,7 +512,7 @@ span[style*='display: inline-block'][style*='width'][style*='height'] {
   vertical-align: middle;
 }
 
-/* Space sections apart since we can’t add wrappers */
+/* Space sections apart */
 body.doc-content > h1,
 body.doc-content > h2,
 body > h1,
@@ -399,9 +528,6 @@ body h1:first-of-type {
   text-shadow: 0 4px 20px rgba(0,0,0,.5), 0 0 0 rgba(183,58,58,0.0);
 }
 
-/* Footer-like small text */
-small, .muted { color: var(--muted); }
-
 /* Final hard overrides to reduce vertical spacing in the main table */
 table.c32 td, table.c32 th,
 table.c32 p, table.c32 li,
@@ -411,16 +537,217 @@ table.c32 em, table.c32 small {
   line-height: 1.08 !important;
 }
 table.c32 p, table.c32 li { margin: 0 !important; padding: 0 !important; }
-/* Google Docs list exports */
 table.c32 ol[class^="lst-kix_"],
 table.c32 ul[class^="lst-kix_"] { margin: 0 !important; }
 table.c32 ol[class^="lst-kix_"] > li,
 table.c32 ul[class^="lst-kix_"] > li { line-height: 1.08 !important; margin: 0 !important; }
 
-/* Make ordered-list numbers white (covers native markers and Docs counters) */
+/* Make ordered-list numbers white */
 table.c32 ol > li::marker { color: #fff !important; }
 table.c32 ol > li:before { color: #fff !important; }
 
-/* Make bullet points in items column (3rd col) white */
+/* Make bullet points in items column white */
 table.c32 td:nth-child(3) ul > li::marker { color: #fff !important; }
 table.c32 td:nth-child(3) ul > li:before { color: #fff !important; }
+
+/* Принудительное применение стилей через JavaScript */
+.force-header-styles {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  text-align: center !important;
+  padding: 16px 12px !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Дополнительное принудительное закрепление */
+table tr:first-child.force-header-styles {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3) !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* Максимально агрессивное закрепление */
+table tr:first-child td.force-header-styles,
+table tr:first-child th.force-header-styles {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Дополнительное принудительное закрепление через атрибуты */
+table tr:first-child[style*="position: sticky"],
+table tr:first-child[style*="position:sticky"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+}
+
+table tr:first-child td[style*="position: sticky"],
+table tr:first-child td[style*="position:sticky"],
+table tr:first-child th[style*="position: sticky"],
+table tr:first-child th[style*="position:sticky"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Максимально агрессивное закрепление - переопределяем все возможные конфликты */
+table tr:first-child,
+table tr:first-child td,
+table tr:first-child th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Рамка для ячеек заголовка */
+table tr:first-child td,
+table tr:first-child th {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Убираем все возможные конфликтующие свойства */
+table tr:first-child td[style*="position"],
+table tr:first-child th[style*="position"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Принудительное закрепление для всех возможных селекторов */
+body table tr:first-child,
+body table tr:first-child td,
+body table tr:first-child th,
+table.c32 tr:first-child,
+table.c32 tr:first-child td,
+table.c32 tr:first-child th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+}
+
+/* Рамка для всех ячеек заголовка */
+body table tr:first-child td,
+body table tr:first-child th,
+table.c32 tr:first-child td,
+table.c32 tr:first-child th {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Стили для закрепленного элемента поверх таблицы */
+.sticky-header-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+  background-color: var(--panel) !important;
+  border: 3px solid rgba(201,168,106,.5) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3) !important;
+  display: none !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Стили для содержимого закрепленного элемента */
+.sticky-header-overlay > * {
+  display: flex !important;
+  width: 100% !important;
+  height: 48px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Стили для ячеек в закрепленном элементе */
+.sticky-header-overlay td,
+.sticky-header-overlay th {
+  flex: 0 0 26% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px 12px !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  text-align: center !important;
+  border: none !important;
+  background: none !important;
+  margin: 0 !important;
+}
+
+.sticky-header-overlay td:nth-child(2),
+.sticky-header-overlay th:nth-child(2),
+.sticky-header-overlay td:nth-child(3),
+.sticky-header-overlay th:nth-child(3) {
+  flex: 0 0 37% !important;
+}
+
+/* Стили для дочерних элементов в закрепленном элементе */
+.sticky-header-overlay td *,
+.sticky-header-overlay th * {
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #f0f1f2 !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Убираем возможные отступы body */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+/* Убираем возможные отступы html */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Убираем возможные отступы viewport */
+* {
+  box-sizing: border-box !important;
+}
+
+/* Дополнительные правила для устранения просветов */
+.sticky-header-overlay {
+  transform: translateY(-50px) !important;
+  margin-top: -50px !important;
+}

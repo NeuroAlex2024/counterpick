@@ -437,11 +437,335 @@
       redistributeUniversalHeroes();
       removeEmptyTrailingTables();
       optimizeImagesForScroll();
+      // Принудительно применить стили к заголовкам
+      forceApplyHeaderStyles();
+      // Добавляем обработчик прокрутки для принудительного закрепления
+      setupStickyHeaders();
       const data = collect();
       buildIndex(data);
+      // Добавляем Monkey King Bar к нескольким героям
+      addMonkeyKingBarToHeroes();
     } catch (e) {
       // fail silently to avoid breaking page
       console.error('Hero index init failed:', e);
+    }
+  }
+
+  function forceApplyHeaderStyles() {
+    try {
+      // Очищаем старые закрепленные элементы
+      const oldStickyHeaders = document.querySelectorAll('.sticky-header-overlay');
+      oldStickyHeaders.forEach(header => header.remove());
+      
+      const tables = Array.from(document.querySelectorAll('table'));
+      for (const table of tables) {
+        const headerRow = table.querySelector('tr:first-child');
+        if (!headerRow) continue;
+        
+        // Создаем уникальный ID для таблицы
+        const tableId = 'table-' + Math.random().toString(36).substr(2, 9);
+        table.setAttribute('data-table-id', tableId);
+        
+        // Создаем закрепленный элемент поверх таблицы
+        let stickyHeader = document.querySelector(`.sticky-header-overlay[data-table-id="${tableId}"]`);
+        if (!stickyHeader) {
+          stickyHeader = document.createElement('div');
+          stickyHeader.className = 'sticky-header-overlay';
+          stickyHeader.setAttribute('data-table-id', tableId);
+          stickyHeader.style.cssText = `
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 9999 !important;
+            background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+            background-color: var(--panel) !important;
+            border: 3px solid rgba(201,168,106,.5) !important;
+            border-radius: 6px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,.3) !important;
+            display: none !important;
+            pointer-events: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          `;
+          document.body.appendChild(stickyHeader);
+        }
+        
+        // Создаем простое содержимое заголовка
+        stickyHeader.innerHTML = `
+          <div style="
+            display: flex !important;
+            width: 100% !important;
+            height: 48px !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          ">
+            <div style="
+              flex: 0 0 26% !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              padding: 16px 12px !important;
+              font-family: 'Cinzel', serif !important;
+              font-size: 16px !important;
+              font-weight: 600 !important;
+              color: #f0f1f2 !important;
+              text-align: center !important;
+              border: none !important;
+              background: none !important;
+              margin: 0 !important;
+            ">Герой</div>
+            <div style="
+              flex: 0 0 37% !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              padding: 16px 12px !important;
+              font-family: 'Cinzel', serif !important;
+              font-size: 16px !important;
+              font-weight: 600 !important;
+              color: #f0f1f2 !important;
+              text-align: center !important;
+              border: none !important;
+              background: none !important;
+              margin: 0 !important;
+            ">Контрпики</div>
+            <div style="
+              flex: 0 0 37% !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              padding: 16px 12px !important;
+              font-family: 'Cinzel', serif !important;
+              font-size: 16px !important;
+              font-weight: 600 !important;
+              color: #f0f1f2 !important;
+              text-align: center !important;
+              border: none !important;
+              background: none !important;
+              margin: 0 !important;
+            ">Предметы для контры</div>
+          </div>
+        `;
+        
+        // Принудительно применяем стили к закрепленному элементу
+        stickyHeader.style.cssText = `
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 9999 !important;
+          background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+          background-color: #151a1e !important;
+          border: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          display: none !important;
+          pointer-events: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        `;
+        
+        // Дополнительно применяем стили через setProperty
+        stickyHeader.style.setProperty('position', 'fixed', 'important');
+        stickyHeader.style.setProperty('top', '0', 'important');
+        stickyHeader.style.setProperty('left', '0', 'important');
+        stickyHeader.style.setProperty('right', '0', 'important');
+        stickyHeader.style.setProperty('z-index', '9999', 'important');
+        stickyHeader.style.setProperty('background', 'linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0))', 'important');
+        stickyHeader.style.setProperty('background-color', '#151a1e', 'important');
+        stickyHeader.style.setProperty('border', 'none', 'important');
+        stickyHeader.style.setProperty('border-radius', '0', 'important');
+        stickyHeader.style.setProperty('box-shadow', 'none', 'important');
+        stickyHeader.style.setProperty('display', 'none', 'important');
+        stickyHeader.style.setProperty('pointer-events', 'none', 'important');
+        stickyHeader.style.setProperty('margin', '0', 'important');
+        stickyHeader.style.setProperty('padding', '0', 'important');
+        
+        // Добавляем класс для принудительного применения стилей
+        headerRow.classList.add('force-header-styles');
+        
+        // Принудительно применяем стили к строке
+        headerRow.style.setProperty('position', 'sticky', 'important');
+        headerRow.style.setProperty('top', '0', 'important');
+        headerRow.style.setProperty('z-index', '999', 'important');
+        headerRow.style.background = 'linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0))';
+        headerRow.style.backgroundColor = 'var(--panel)';
+        headerRow.style.boxShadow = '0 4px 12px rgba(0,0,0,.3)';
+        headerRow.style.border = 'none';
+        headerRow.style.borderRadius = '0';
+        
+        const originalCells = Array.from(headerRow.querySelectorAll('td, th'));
+        for (const cell of originalCells) {
+          cell.classList.add('force-header-styles');
+          
+          // Принудительно применяем стили через style атрибут
+          cell.style.setProperty('position', 'sticky', 'important');
+          cell.style.setProperty('top', '0', 'important');
+          cell.style.setProperty('z-index', '999', 'important');
+          cell.style.fontFamily = "'Cinzel', serif";
+          cell.style.fontSize = '16px';
+          cell.style.fontWeight = '600';
+          cell.style.color = '#f0f1f2';
+          cell.style.textAlign = 'center';
+          cell.style.padding = '16px 12px';
+          cell.style.height = '48px';
+          cell.style.minHeight = '48px';
+          cell.style.background = 'linear-gradient(180deg, rgba(183,58,58,.15), rgba(0,0,0,0))';
+          cell.style.backgroundColor = 'var(--panel)';
+          cell.style.border = 'none';
+          cell.style.borderRadius = '0';
+          cell.style.boxShadow = 'none';
+          
+          // Применяем стили ко всем дочерним элементам
+          const children = Array.from(cell.querySelectorAll('*'));
+          for (const child of children) {
+            child.style.fontFamily = "'Cinzel', serif";
+            child.style.fontSize = '16px';
+            child.style.fontWeight = '600';
+            child.style.color = '#f0f1f2';
+            child.style.textAlign = 'center';
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Force apply header styles failed:', e);
+    }
+  }
+
+  function setupStickyHeaders() {
+    try {
+      const tables = Array.from(document.querySelectorAll('table'));
+      
+      // Принудительно применяем закрепление при загрузке
+      forceApplyHeaderStyles();
+      
+      // Добавляем обработчик прокрутки для принудительного закрепления
+      let ticking = false;
+      function updateStickyHeaders() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          tables.forEach(table => {
+            const headerRow = table.querySelector('tr:first-child');
+            if (!headerRow) return;
+            
+            const tableId = table.getAttribute('data-table-id');
+            if (!tableId) return;
+            
+            const stickyHeader = document.querySelector(`.sticky-header-overlay[data-table-id="${tableId}"]`);
+            if (!stickyHeader) return;
+            
+            // Получаем позицию таблицы
+            const tableRect = table.getBoundingClientRect();
+            const headerRect = headerRow.getBoundingClientRect();
+            
+            // Показываем закрепленный заголовок, если таблица видна и заголовок скрыт
+            const isTableVisible = tableRect.top < 0 && tableRect.bottom > 0;
+            const isHeaderHidden = headerRect.top < 0;
+            const isHeaderFullyVisible = headerRect.top >= 0 && headerRect.bottom > 0;
+            const isTableBottomVisible = tableRect.bottom > 0;
+            const isTableNotFullyScrolled = tableRect.top > -tableRect.height;
+            const isTableNotTooFarUp = tableRect.top > -200; // Дополнительная проверка
+            const shouldShowSticky = isTableVisible && isHeaderHidden && !isHeaderFullyVisible && isTableBottomVisible && isTableNotFullyScrolled && isTableNotTooFarUp;
+            
+            if (shouldShowSticky) {
+              // Принудительно применяем стили при показе
+              stickyHeader.style.cssText = `
+                position: fixed !important;
+                top: -50px !important;
+                left: ${tableRect.left}px !important;
+                width: ${tableRect.width}px !important;
+                height: 102px !important;
+                z-index: 9999 !important;
+                background: linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0)) !important;
+                background-color: #151a1e !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                display: block !important;
+                pointer-events: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+              `;
+              
+              // Дополнительно применяем стили через setProperty
+              stickyHeader.style.setProperty('position', 'fixed', 'important');
+              stickyHeader.style.setProperty('top', '-50px', 'important');
+              stickyHeader.style.setProperty('left', tableRect.left + 'px', 'important');
+              stickyHeader.style.setProperty('width', tableRect.width + 'px', 'important');
+              stickyHeader.style.setProperty('height', '102px', 'important');
+              stickyHeader.style.setProperty('z-index', '9999', 'important');
+              stickyHeader.style.setProperty('background', 'linear-gradient(180deg, rgba(183,58,58,.2), rgba(0,0,0,0))', 'important');
+              stickyHeader.style.setProperty('background-color', '#151a1e', 'important');
+              stickyHeader.style.setProperty('border', 'none', 'important');
+              stickyHeader.style.setProperty('border-radius', '0', 'important');
+              stickyHeader.style.setProperty('box-shadow', 'none', 'important');
+              stickyHeader.style.setProperty('display', 'block', 'important');
+              stickyHeader.style.setProperty('pointer-events', 'none', 'important');
+              stickyHeader.style.setProperty('margin', '0', 'important');
+              stickyHeader.style.setProperty('padding', '0', 'important');
+              
+              // Отладочная информация
+              console.log('Sticky header shown:', {
+                position: stickyHeader.style.position,
+                border: stickyHeader.style.border,
+                backgroundColor: stickyHeader.style.backgroundColor,
+                display: stickyHeader.style.display,
+                left: stickyHeader.style.left,
+                width: stickyHeader.style.width,
+                tableTop: tableRect.top,
+                tableBottom: tableRect.bottom,
+                headerTop: headerRect.top,
+                isTableVisible,
+                isHeaderHidden,
+                isHeaderFullyVisible,
+                isTableBottomVisible,
+                isTableNotFullyScrolled,
+                isTableNotTooFarUp
+              });
+            } else {
+              stickyHeader.style.setProperty('display', 'none', 'important');
+              stickyHeader.style.display = 'none';
+            }
+            
+            // Убираем все inline стили position
+            headerRow.style.removeProperty('position');
+            headerRow.style.removeProperty('top');
+            headerRow.style.removeProperty('z-index');
+            
+            // Принудительно применяем закрепление через CSS переменные
+            headerRow.style.setProperty('position', 'sticky', 'important');
+            headerRow.style.setProperty('top', '0', 'important');
+            headerRow.style.setProperty('z-index', '999', 'important');
+            
+            const cells = Array.from(headerRow.querySelectorAll('td, th'));
+            cells.forEach(cell => {
+              cell.style.removeProperty('position');
+              cell.style.removeProperty('top');
+              cell.style.removeProperty('z-index');
+              
+              cell.style.setProperty('position', 'sticky', 'important');
+              cell.style.setProperty('top', '0', 'important');
+              cell.style.setProperty('z-index', '999', 'important');
+            });
+          });
+          ticking = false;
+        });
+      }
+      
+      window.addEventListener('scroll', updateStickyHeaders, { passive: true });
+      window.addEventListener('resize', updateStickyHeaders, { passive: true });
+      
+      // Применяем сразу
+      updateStickyHeaders();
+      
+      // Дополнительно применяем через небольшую задержку
+      setTimeout(updateStickyHeaders, 100);
+      setTimeout(updateStickyHeaders, 500);
+    } catch (e) {
+      console.error('Setup sticky headers failed:', e);
     }
   }
 
@@ -678,6 +1002,163 @@
           if (header && header.parentNode) header.parentNode.appendChild(m.row); else targetTable.appendChild(m.row);
         } catch (_) {}
       }
+    }
+  }
+
+  function addMonkeyKingBarToHeroes() {
+    try {
+      // Список ID героев, которым нужно добавить Monkey King Bar
+      const heroIdsToUpdate = [
+        'hero-brewmaster',
+        'hero-phantom-assassin', 
+        'hero-tinker',
+        'hero-windranger'
+      ];
+      
+      // Дополнительные возможные ID для Tinker
+      const tinkerPossibleIds = [
+        'hero-tinker',
+        'hero-boush', // старое имя Tinker
+        'hero-tink'
+      ];
+      
+      // Список героев для поиска по имени (как запасной вариант)
+      const heroesToUpdate = [
+        'brewmaster', 'брюмастер',
+        'phantom assassin', 'фантом ассасин',
+        'tinker', 'тинкер', 'тинк', 'tink',
+        'windranger', 'виндрейнджер', 'wind', 'винд', 'ranger', 'рейнджер',
+        'windrunner', 'виндраннер', 'lyralei', 'лиралей'
+      ];
+      
+      // Ищем все строки таблицы
+      const tables = Array.from(document.querySelectorAll('table'));
+      let addedCount = 0;
+      let foundHeroes = []; // Для отладки
+      
+      for (const table of tables) {
+        const rows = Array.from(table.querySelectorAll('tr'));
+        
+        for (const row of rows) {
+          // Пропускаем заголовок
+          if (row === table.querySelector('tr:first-child')) continue;
+          
+          const firstCell = row.cells && row.cells[0];
+          if (!firstCell) continue;
+          
+          // Сначала проверяем по ID
+          const rowId = row.id;
+          let isTargetHero = false;
+          
+          // Отладочная информация - показываем все ID
+          if (rowId && rowId.startsWith('hero-')) {
+            console.log(`Найден ID героя: ${rowId}`);
+          }
+          
+          if (rowId && (heroIdsToUpdate.includes(rowId) || tinkerPossibleIds.includes(rowId))) {
+            isTargetHero = true;
+            console.log(`Найден герой по ID: ${rowId}`);
+          } else if (rowId && rowId.startsWith('hero-')) {
+            // Проверяем частичное совпадение для windranger, tinker и других
+            const heroName = rowId.replace('hero-', '');
+            if (heroName.includes('windranger') || heroName.includes('windrunner') ||
+                heroName.includes('tinker') || heroName.includes('brewmaster') || 
+                heroName.includes('phantom') || heroName.includes('wind') ||
+                heroName.includes('lyralei')) {
+              isTargetHero = true;
+              console.log(`Найден герой по частичному ID: ${rowId}`);
+            }
+          } else {
+            // Если не найден по ID, ищем по имени
+            const img = firstCell.querySelector('img');
+            if (img) {
+              const heroName = (img.getAttribute('title') || img.getAttribute('alt') || '').toLowerCase();
+              foundHeroes.push(heroName); // Добавляем для отладки
+              isTargetHero = heroesToUpdate.some(hero => heroName.includes(hero));
+            }
+          }
+          
+          if (isTargetHero) {
+            // Находим третью ячейку (предметы для контры)
+            const thirdCell = row.cells && row.cells[2];
+            if (!thirdCell) {
+              console.log(`Третья ячейка не найдена для героя с ID: ${rowId}`);
+              continue;
+            }
+            
+            console.log(`Найдена третья ячейка для героя с ID: ${rowId}`);
+            
+            // Проверяем, не добавлен ли уже Monkey King Bar
+            const existingItems = thirdCell.textContent.toLowerCase();
+            if (existingItems.includes('monkey king bar')) {
+              console.log(`Monkey King Bar уже есть у героя с ID: ${rowId}`);
+              continue;
+            }
+            
+            // Ищем список предметов в третьей ячейке
+            let itemsList = thirdCell.querySelector('ul, ol');
+            if (!itemsList) {
+              console.log(`Список предметов не найден для героя с ID: ${rowId}, создаем новый`);
+              // Если списка нет, создаем его
+              itemsList = document.createElement('ul');
+              itemsList.className = 'c11 lst-kix_items-0 start';
+              thirdCell.appendChild(itemsList);
+            } else {
+              console.log(`Список предметов найден для героя с ID: ${rowId}`);
+            }
+            
+            // Создаем новый элемент списка для Monkey King Bar
+            const newItem = document.createElement('li');
+            newItem.className = 'c1 li-bullet-0';
+            
+            // Создаем span для иконки
+            const iconSpan = document.createElement('span');
+            iconSpan.style.cssText = 'overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 19.00px; height: 19.00px;';
+            
+            // Создаем изображение иконки
+            const iconImg = document.createElement('img');
+            iconImg.src = 'images/image130.jpg';
+            iconImg.alt = 'Monkey King Bar';
+            iconImg.title = 'Monkey King Bar';
+            iconImg.style.cssText = 'width: 19.00px; height: 19.00px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);';
+            
+            iconSpan.appendChild(iconImg);
+            
+            // Создаем текст предмета
+            const textSpan = document.createElement('span');
+            textSpan.textContent = 'Monkey King Bar';
+            textSpan.style.cssText = 'font-family: Arial, sans-serif; font-size: 11.5px; text-decoration: underline; color: #a2a6ab;';
+            
+            // Добавляем иконку и текст в элемент списка
+            newItem.appendChild(iconSpan);
+            newItem.appendChild(document.createTextNode(' '));
+            newItem.appendChild(textSpan);
+            
+            // Добавляем новый предмет в список
+            itemsList.appendChild(newItem);
+            
+            addedCount++;
+            console.log(`✅ Monkey King Bar успешно добавлен к герою с ID: ${rowId}`);
+          }
+        }
+      }
+      
+      console.log(`Monkey King Bar добавлен к ${addedCount} героям`);
+      console.log('Найденные герои:', foundHeroes.slice(0, 50)); // Показываем первые 50 для отладки
+      
+      // Дополнительно ищем всех героев, содержащих "wind" в имени
+      const windHeroes = foundHeroes.filter(name => name.includes('wind') || name.includes('винд'));
+      console.log('Герои с "wind" в имени:', windHeroes);
+      
+      // Дополнительно ищем всех героев, содержащих "tinker" в имени  
+      const tinkerHeroes = foundHeroes.filter(name => name.includes('tinker') || name.includes('тинк'));
+      console.log('Герои с "tinker" в имени:', tinkerHeroes);
+      
+      // Показываем все ID, содержащие "tink"
+      const allRows = Array.from(document.querySelectorAll('tr[id*="tink"]'));
+      console.log('Все строки с "tink" в ID:', allRows.map(row => row.id));
+    } catch (e) {
+      console.error('Ошибка при добавлении Monkey King Bar:', e);
     }
   }
 
