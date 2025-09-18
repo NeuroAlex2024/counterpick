@@ -1,0 +1,13 @@
+{
+  "name": "counterpick-dota",
+  "version": "1.0.0",
+  "description": "Dota 2 Counterpick Cheatsheet",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "start": "echo 'Static site - no start needed'"
+  },
+  "keywords": ["dota2", "counterpick", "cheatsheet"],
+  "author": "NeuroAlex2024",
+  "license": "MIT"
+}
